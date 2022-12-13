@@ -1,4 +1,4 @@
-from src.d1.solution import *
+from src.d01.solution import *
 
 
 def main():
