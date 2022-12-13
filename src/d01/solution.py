@@ -1,4 +1,4 @@
-from src.d1.input_parser import *
+from src.d01.input_parser import *
 
 
 def part1(file_input):

@@ -1,5 +1,5 @@
 import unittest
-from src.d1.solution import *
+from src.d01.solution import *
 from src.tests.utils.file_stub import *
 
 tc = unittest.TestCase()
