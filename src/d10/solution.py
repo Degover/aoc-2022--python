@@ -11,7 +11,20 @@ def part1(input) -> str:
 
 
 def part2(input) -> str:
-    return "Not implemented yet"
+    all_cycles = get_signals(input)
+    test = [
+        "#" if x-1 <= (cycle-1) % 40 <= x+1 else "."
+        for (x, cycle) in all_cycles
+    ]
+
+    return "\n".join([
+        "".join(test[:40]),
+        "".join(test[40:80]),
+        "".join(test[80:120]),
+        "".join(test[120:160]),
+        "".join(test[160:200]),
+        "".join(test[200:]),
+    ])
 
 
 def solve_d10():
