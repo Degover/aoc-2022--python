@@ -26,4 +26,4 @@ def test_Part2_WithExample_ShouldBeCorrect():
 
     result = part2(file_stub)
 
-    assert result == "Not solved yet"
+    assert result == "29"

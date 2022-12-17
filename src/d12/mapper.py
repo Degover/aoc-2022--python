@@ -9,6 +9,10 @@ class Mapper:
         self.source: Node = None
         self.target: Node = None
 
+        self.is_source = lambda char: char == "S"
+        self.is_target = lambda char: char == "E"
+        self.can_connect = lambda from_node, to_node: to_node.height <= from_node.height + 1
+
     def read_file_input(self, file_input) -> None:
         for line in file_input:
             self.grid.append([])
@@ -22,9 +26,9 @@ class Mapper:
                 node = Node(height, x, len(self.grid)-1)
                 self.grid[-1].append(node)
 
-                if char == "S":
+                if self.is_source(char):
                     self.source = node
-                elif char == "E":
+                elif self.is_target(char):
                     self.target = node
 
         self.source.distance = 0
@@ -38,18 +42,18 @@ class Mapper:
                 node.connections = []
                 if y > 0:
                     up_node = self.grid[y-1][x]
-                    if up_node.height <= node.height + 1:
+                    if self.can_connect(node, up_node):
                         node.connections.append(up_node)
 
-                    if node.height <= up_node.height + 1:
+                    if self.can_connect(up_node, node):
                         up_node.connections.append(node)
 
                 if x > 0:
                     left_node = self.grid[y][x-1]
-                    if left_node.height <= node.height + 1:
+                    if self.can_connect(node, left_node):
                         node.connections.append(left_node)
 
-                    if node.height <= left_node.height + 1:
+                    if self.can_connect(left_node, node):
                         left_node.connections.append(node)
 
     def visit_node(self, node: Node) -> None:
@@ -62,13 +66,13 @@ class Mapper:
 
             curr_distance = node.distance + 1
             if curr_distance < connected_node.distance:
-                connected_node.distance = int(curr_distance)
+                connected_node.distance = curr_distance
                 connected_node.parent = node
 
     def calculate_best_route(self) -> int:
         current_node: Node = None
 
-        while len(self.unvisited_nodes) > 0 and current_node is not self.target:
+        while len(self.unvisited_nodes) > 0:
             current_node = min(self.unvisited_nodes)
             self.visit_node(current_node)
 
